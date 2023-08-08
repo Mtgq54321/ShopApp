@@ -18,6 +18,16 @@ app.use(morgan('tiny'));
 app.use('/public/uploads', express.static(__dirname + '/public/uploads'));
 // app.use(errorHandler);
 
+app.use(express.static(path.join(__dirname, "./client/build")));
+app.get("*", function (_, res) {
+  res.sendFile(
+    path.join(__dirname, "./client/build/index.html"),
+    function (err) {
+      res.status(500).send(err);
+    }
+  );
+});
+
 //Routes
 const categoriesRoutes = require('./routes/categories');
 const productsRoutes = require('./routes/products');
